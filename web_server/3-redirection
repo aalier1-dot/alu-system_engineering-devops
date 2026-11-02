@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Installs Nginx and redirects /redirect_me with HTTP 301.
 
 apt-get -y update
 apt-get -y install nginx
