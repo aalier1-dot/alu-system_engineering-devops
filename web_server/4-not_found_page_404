@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+apt-get -y update
+apt-get -y install nginx
+
+cat > /etc/nginx/sites-available/default <<'NGINX'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    location = /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location = /redirect_me/ {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    error_page 404 /404.html;
+
+    location = /404.html {
+        internal;
+    }
+}
+NGINX
+
+cat > /var/www/html/index.html <<'HTML'
+Holberton School for the win!
+HTML
+
+cat > /var/www/html/404.html <<'HTML'
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lost in the cosmos</title>
+    <style>
+        :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            color: #f4f3ff;
+            background: radial-gradient(ellipse at 50% 42%, #27336b 0, #111632 38%, #080b19 78%);
+        }
+        main { position: relative; z-index: 1; width: min(90%, 680px); text-align: center; }
+        .orbit {
+            width: 210px;
+            height: 210px;
+            margin: 0 auto 28px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #8e98ff66;
+            border-radius: 50%;
+            box-shadow: 0 0 70px #7380ff30, inset 0 0 35px #7380ff22;
+        }
+        .planet {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffc78c, #ed708f 56%, #725bce);
+            box-shadow: inset -14px -10px 24px #25194788, 0 0 48px #f291bb55;
+        }
+        .code { color: #a7adff; font-size: clamp(4rem, 14vw, 7rem); font-weight: 800; line-height: 1; letter-spacing: .08em; }
+        h1 { margin: 14px 0 10px; font-size: clamp(1.5rem, 5vw, 2.3rem); }
+        p { color: #c1c5dd; line-height: 1.7; }
+        .hint { margin-top: 30px; color: #ffcb9c; font-family: ui-monospace, monospace; }
+        a { display: inline-block; margin-top: 15px; padding: 12px 20px; border: 1px solid #a7adff88; border-radius: 999px; color: #f4f3ff; text-decoration: none; }
+        a:hover { background: #a7adff22; }
+        .stars { position: fixed; inset: 0; opacity: .65; background-image: radial-gradient(2px 2px at 12% 18%, white 70%, transparent), radial-gradient(1px 1px at 82% 24%, white 70%, transparent), radial-gradient(2px 2px at 67% 78%, white 70%, transparent), radial-gradient(1px 1px at 24% 72%, white 70%, transparent), radial-gradient(1px 1px at 91% 61%, white 70%, transparent); }
+    </style>
+</head>
+<body>
+    <div class="stars" aria-hidden="true"></div>
+    <main>
+        <div class="orbit" aria-hidden="true"><div class="planet"></div></div>
+        <div class="code">404</div>
+        <h1>Looks like you drifted off course.</h1>
+        <p>The page you are looking for has wandered beyond this little corner of the universe.</p>
+        <p class="hint">Ceci n'est pas une page</p>
+        <a href="/">Return to home base</a>
+    </main>
+</body>
+</html>
+HTML
+
+nginx -t
+service nginx restart
