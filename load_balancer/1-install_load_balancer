@@ -36,6 +36,6 @@ backend web_servers
     server web-02 web-02:80 check
 HAPROXY
 
-haproxy -c -f /etc/haproxy/haproxy.cfg
-printf 'Configured HAProxy backends: web-01 web-02\n'
+    printf 'Configured HAProxy backends: web-01 web-02\n'
+    haproxy -c -f /etc/haproxy/haproxy.cfg
 service haproxy restart
