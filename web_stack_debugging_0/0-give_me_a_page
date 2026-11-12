@@ -1,4 +1,5 @@
+@'
 #!/usr/bin/env bash
-# Start Apache and configure the required root page.
+# Starts Apache so the root page returns Hello Holberton
 service apache2 start
-echo "Hello Holberton" > /var/www/html/index.html
+'@ | Set-Content -NoNewline -Encoding ascii web_stack_debugging_0\0-give_me_a_page
