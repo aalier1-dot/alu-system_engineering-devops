@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Restore the Nginx site link and restart Nginx.
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
