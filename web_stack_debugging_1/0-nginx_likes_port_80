@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# Start Nginx so it listens on port 80.
-service nginx start
+# Restart Nginx so it listens on port 80.
+service nginx restart
