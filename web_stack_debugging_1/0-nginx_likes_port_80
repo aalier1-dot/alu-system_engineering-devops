@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-# Restart Nginx so it listens on port 80.
+# Fixes Nginx so it listens on port 80, then restarts it
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
