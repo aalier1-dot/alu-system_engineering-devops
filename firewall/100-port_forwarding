@@ -3,6 +3,7 @@ Sudo is disabled on this machine. To enable it, go to the Developer Settings pag
 PS C:\Users\HP\Documents\alu-webstack> sudo ufw reload
 Sudo is disabled on this machine. To enable it, go to the Developer Settings page in the Settings app
 PS C:\Users\HP\Documents\alu-webstack> 
+# Redirect TCP port 8080 to port 80 through UFW.
 #
 # rules.before
 #
