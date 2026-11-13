@@ -4,5 +4,7 @@ if ! id nginx >/dev/null 2>&1; then
     useradd -r -s /usr/sbin/nologin nginx
 fi
 sed -i 's/^[[:space:]]*user .*/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's|^[[:space:]]*pid .*|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf
 sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-enabled/default
-service nginx restart
+service nginx stop
+su -s /bin/sh -c '/usr/sbin/nginx' nginx
