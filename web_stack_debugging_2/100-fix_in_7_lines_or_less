@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run Nginx as nginx and listen on port 8080.
 pkill apache2
-sed -i 's/^user .*;/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's/^user .*/user nginx\x3b/' /etc/nginx/nginx.conf
 sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default
 pkill nginx
 sudo -u nginx service nginx start
