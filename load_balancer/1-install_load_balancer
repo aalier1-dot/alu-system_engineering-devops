@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
-# Installs and configures HAProxy to load-balance the two web servers.
+# Install and configure HAProxy to load-balance the two web servers.
 
-apt-get -y update
-apt-get -y install haproxy
+set -e
 
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root." >&2
+    exit 1
+fi
+
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y haproxy
+
+# Keep the package-provided SysV init script enabled.
 sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+update-rc.d haproxy defaults
 
 cat > /etc/haproxy/haproxy.cfg <<'HAPROXY'
 global
@@ -36,6 +45,6 @@ backend web_servers
     server web-02 web-02:80 check
 HAPROXY
 
-    printf 'Configured HAProxy backends: web-01 web-02\n'
-    haproxy -c -f /etc/haproxy/haproxy.cfg
+haproxy -c -f /etc/haproxy/haproxy.cfg
 service haproxy restart
+printf 'Configured HAProxy backends: web-01 web-02\n'
